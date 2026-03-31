@@ -66,10 +66,10 @@ async def create_purchase(tg_id, tg_username, amount, item, TON, bot): # соз�
                 share = net // 2
                 session.add(Purchases(tg_id = tg_id, tg_username = tg_username, amount = amount, ton = ton, net = net, share = share, affiliate = affiliate))
             else:
-                star = int(amount)
+                stars = int(amount)
                 net = round(amount * 0.92 - star * 0.015 * USDT['USDT'], 2)
                 share = net // 2
-                session.add(Purchases(tg_id = tg_id, tg_username = tg_username, amount = amount, star = star, net = net, share = share, affiliate = affiliate))
+                session.add(Purchases(tg_id = tg_id, tg_username = tg_username, amount = amount, stars = stars, net = net, share = share, affiliate = affiliate))
             if affiliate:
                 await session.execute(update(Stars).where(Stars.tg_id == affiliate).values(balance= Stars.balance + share)) # по количеству обновленных строк можно понять прошла ли запись
 
