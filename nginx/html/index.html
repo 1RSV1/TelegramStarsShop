@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iframe Overscroll Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .explanation {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .explanation h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .methods {
+            margin-top: 20px;
+        }
+        
+        .method {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        
+        .method h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .iframe-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .iframe-wrapper {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .iframe-wrapper h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        /* This is the key CSS for controlling overscroll */
+        .iframe-parent {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            /* This prevents the iframe from capturing scroll events */
+            pointer-events: none;
+        }
+        
+        /* Alternative method using transform */
+        .no-overscroll {
+            overflow: hidden;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 12px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        .active {
+            background: #2c3e50;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Iframe Overscroll Behavior Control</h1>
+            <p class="description">Learn how to manage overscroll behavior in iframes without accessing the internal content of the iframe.</p>
+        </header>
+        
+        <div class="content">
+            <div class="explanation">
+                <h2>About Overscroll Behavior</h2>
+                <p>Overscroll behavior determines what happens when a user scrolls past the boundaries of a scrollable element. By default, it may cause scroll chaining to the parent document or a pull-to-refresh action.</p>
+                
+                <div class="methods">
+                    <h2>Methods to Control Overscroll</h2>
+                    
+                    <div class="method">
+                        <h3>1. Pointer Events Control</h3>
+                        <p>Using <code>pointer-events: none</code> on the iframe prevents it from capturing scroll events, effectively disabling overscroll within the iframe.</p>
+                    </div>
+                    
+                    <div class="method">
+                        <h3>2. Wrapper Div with Overflow Control</h3>
+                        <p>Wrapping the iframe in a container with <code>overflow: hidden</code> and controlling dimensions through the wrapper.</p>
+                    </div>
+                    
+                    <div class="method">
+                        <h3>3. Alternative: overscroll-behavior-y (requires iframe access)</h3>
+                        <p>If you could access the iframe content, you would use <code>overscroll-behavior-y: none</code> on the body element inside the iframe.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="iframe-container">
+                <div class="iframe-wrapper">
+                    <h2>Demo Iframe</h2>
+                    <div class="iframe-parent" id="iframeParent">
+                        <iframe id="demoIframe" src="https://en.wikipedia.org/wiki/Web_scrolling" title="Scrolling Wikipedia Article"></iframe>
+                    </div>
+                    
+                    <div class="controls">
+                        <button id="pointerEventsBtn">Toggle Pointer Events</button>
+                        <button id="overflowBtn">Toggle Overflow Control</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Note: These techniques work without access to the iframe's internal content. The iframe is loading content from Wikipedia for demonstration.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.getElementById('demoIframe');
+            const iframeParent = document.getElementById('iframeParent');
+            const pointerEventsBtn = document.getElementById('pointerEventsBtn');
+            const overflowBtn = document.getElementById('overflowBtn');
+            
+            let pointerEventsEnabled = true;
+            let overflowControlEnabled = true;
+            
+            // Set initial state
+            updateIframe();
+            
+            pointerEventsBtn.addEventListener('click', function() {
+                pointerEventsEnabled = !pointerEventsEnabled;
+                updateIframe();
+                updateButtonStates();
+            });
+            
+            overflowBtn.addEventListener('click', function() {
+                overflowControlEnabled = !overflowControlEnabled;
+                updateIframe();
+                updateButtonStates();
+            });
+            
+            function updateIframe() {
+                if (pointerEventsEnabled) {
+                    iframe.style.pointerEvents = 'none';
+                } else {
+                    iframe.style.pointerEvents = 'auto';
+                }
+                
+                if (overflowControlEnabled) {
+                    iframeParent.style.overflow = 'hidden';
+                } else {
+                    iframeParent.style.overflow = 'auto';
+                }
+            }
+            
+            function updateButtonStates() {
+                pointerEventsBtn.classList.toggle('active', pointerEventsEnabled);
+                overflowBtn.classList.toggle('active', overflowControlEnabled);
+            }
+            
+            // Initialize button states
+            updateButtonStates();
+        });
+    </script>
+</body>
+</html>
