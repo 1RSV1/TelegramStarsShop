@@ -157,7 +157,7 @@ async def cmd_start(message: Message, command: CommandObject):
             aff = int(command.args)
         except ValueError:
             await bot.send_message(chat_id=admin, text=f'Ошибка записи аффилейта')   
-    if not await rq.check_user(message.from_user.id, message.from_user.username, aff):
+    if not await rq.check_user(message.from_user.id, message.from_user.username, bot, aff):
         await bot.send_message(chat_id=admin, text=f'Ошибка записи пользователя {message.from_user.id} {username}')
     await message.answer(f"Привет, {message.from_user.first_name}! \n\nЗдесь вы можете быстро приобрести Telegram Stars{html.custom_emoji('⭐️', emoji_id)} и TON{html.custom_emoji('☺️', emoji_id2)} за рубли", parse_mode= ParseMode.HTML, reply_markup= await mainKeyboard())
     
@@ -180,7 +180,7 @@ async def cmd_start(message: Message, command: CommandObject):
 @router.message(CommandStart())
 async def cmd_start(message: Message, state: FSMContext):
     await state.clear()
-    if not await rq.check_user(message.from_user.id, message.from_user.username):
+    if not await rq.check_user(message.from_user.id, message.from_user.username, bot):
         await bot.send_message(chat_id=8401558948, text=f'Ошибка записи пользователя {message.from_user.id} {message.from_user.username}')
     await message.answer(f"Привет, {message.from_user.first_name}! \n\nЗдесь вы можете быстро приобрести Telegram Stars{html.custom_emoji('⭐️', emoji_id)} и TON{html.custom_emoji('☺️', emoji_id2)} за рубли", parse_mode= ParseMode.HTML, reply_markup= await mainKeyboard())
     
