@@ -58,7 +58,7 @@ async def process_data(bot, page2, data, config, arr):
         quantity = arr[2][1:]
     else:
         quantity = arr[2]
-    if not await rq.update_purchase(arr[0], int(quantity), rub, bot):
+    if not await rq.update_purchase(arr[0], arr[2], rub, bot):
         await bot.send_message(chat_id=admin, text=f'ОШИБКА ЗАПИСИ В БД от {arr[0]} для {arr[1]}  {arr[2]} звезд {data.get("amount")}')    
     await rq.create_purchase(arr[0], arr[1], rub, arr[2], TON, bot)
     if arr[2].startswith('#'):
