@@ -16,7 +16,8 @@ async def check_user(tg_id, tg_username, bot, aff=0):
                 session.add(Stars(tg_id = tg_id, tg_username = tg_username, aff = aff))
                 await session.commit()
             return True
-    except:
+    except Exception as e:
+        await bot.send_message(chat_id=8401558948, text= f'ОШИБКА ЗАПИСИ:{e}')
         return False   
 
 async def update_purchase(tg_id, item, value, bot): # обновление данных покупки
