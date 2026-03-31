@@ -414,7 +414,7 @@ async def handle_post_request(request: web.Request):
             transactionDict.pop(data.get('id'))
             await queue.put([bot, page2, data, config, arr])
         else:
-            await bot.send_message(chat_id=admin, text=f'нет информации о платеже {data.get('id')} НЕ ОТПРАВЛЕНО')
+            await bot.send_message(chat_id=admin, text=f"нет информации о платеже {data.get('id')} НЕ ОТПРАВЛЕНО")
 
     elif data.get('status') == 'CHARGEBACKED':
         await bot.send_message(chat_id=admin, text=f'CHARGEBACKED {data.get("id")} {data.get("amount")}')
