@@ -67,7 +67,7 @@ async def create_purchase(tg_id, tg_username, amount, item, TON, bot): # соз�
                 session.add(Purchases(tg_id = tg_id, tg_username = tg_username, amount = amount, ton = ton, net = net, share = share, affiliate = affiliate))
             else:
                 stars = int(amount)
-                net = round(amount * 0.92 - star * 0.015 * USDT['USDT'], 2)
+                net = round(amount * 0.92 - stars * 0.015 * USDT['USDT'], 2)
                 share = net // 2
                 session.add(Purchases(tg_id = tg_id, tg_username = tg_username, amount = amount, stars = stars, net = net, share = share, affiliate = affiliate))
             if affiliate:
