@@ -1,10 +1,9 @@
 from app.database.models import async_session
 from app.database.models import Stars, Purchases
 from sqlalchemy import select, update
-from app.handlers import admin, USDT
 
 
-
+USDT = {'USDT': 82.5}
 
 async def check_user(tg_id, tg_username, aff=0): 
 
@@ -33,7 +32,7 @@ async def update_purchase(tg_id, item, value, bot): # обновление да�
             await session.commit()
             return True
     except Exception as e:
-        await bot.send_message(chat_id=admin, text=f"Ошибка бд: {e}")
+        await bot.send_message(chat_id=155269575, text=f"Ошибка бд: {e}")
         return False
     
 
@@ -76,7 +75,7 @@ async def create_purchase(tg_id, tg_username, amount, item, TON, bot): # соз�
             await session.commit()
             return True
     except Exception as e:
-        await bot.send_message(chat_id=admin, text=f"Ошибка записи покупки бд: {e}")
+        await bot.send_message(chat_id=155269575, text=f"Ошибка записи покупки бд: {e}")
         return False
 
 
