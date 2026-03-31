@@ -44,7 +44,7 @@ lock4 = asyncio.Lock()
 
 
 transactionDict = {}
-STAR = {'STAR': 1.4}
+STARS = {'STARS': 1.4}
 USDT = {'USDT': 82.5}
 isFragmentAvailable = {'ok': True}
 
@@ -427,7 +427,7 @@ async def SBP(callback: CallbackQuery, isfragmentAvailable, TON):
         if not isfragmentAvailable['ok']:
             await callback.answer("❌Сервис временно недоступен, попробуйте позже", show_alert= True)
             return    
-        num = math.ceil(int(data[1])*star)
+        num = math.ceil(int(data[1])*STARS['STARS'])
         rub = round(num * 1.04, 2)
         description = f"Оплата {data[1]} telegram stars для {username}"
         obj = await createUrlPlatega(rub, description) 
