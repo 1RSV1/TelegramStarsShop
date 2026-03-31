@@ -5,7 +5,7 @@ from sqlalchemy import select, update
 
 USDT = {'USDT': 82.5}
 
-async def check_user(tg_id, tg_username, aff=0): 
+async def check_user(tg_id, tg_username, bot, aff=0): 
 
     if tg_username == None:
         tg_username = ''
