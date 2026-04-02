@@ -39,6 +39,12 @@ async def mainKeyboard():
     keyboard.add(InlineKeyboardButton(text = 'TON', icon_custom_emoji_id= '5406976471153545018', callback_data= 'ton'))           
     return keyboard.adjust(2).as_markup()
 
+async def withdrawKeyboard(): 
+    keyboard = InlineKeyboardBuilder()     
+    keyboard.add(InlineKeyboardButton(text = ' ', icon_custom_emoji_id= '5406812184359507637', callback_data= 'withdraw_stars')) 
+    keyboard.add(InlineKeyboardButton(text = ' ', icon_custom_emoji_id= '5406976471153545018', callback_data= 'withdraw_ton'))           
+    return keyboard.adjust(2).as_markup()
+  
 async def tonKeyboard(): 
     keyboard = InlineKeyboardBuilder()
     for ton in ton_quantities:     
