@@ -612,6 +612,23 @@ async def send_to_all(message: Message, state: FSMContext):
         await state.update_data(text = message.caption)    
     if message.photo:
         await state.update_data(photo = message.photo[0].file_id)
+    data = await state.get_data()  
+    await state.clear()
+    all_users = await rq.retrieve_all_users()  
+    sent = 0
+    not_sent = 0
+    for user in all_users:
+        time.sleep(0.5)
+        try:
+            if data.get('photo'):
+                await bot.send_photo(chat_id=user['tg_id'], caption= data.get('text'), photo= data.get('photo'))
+            else:
+                await bot.send_message(chat_id=user['tg_id'], text=data.get('text'))
+            sent += 1
+        except:
+            pass  
+            not_sent += 1
+    await bot.send_message(chat_id=admin, text=f'отправлено {sent} не отправлено {not_sent}')      
     
 
   
