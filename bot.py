@@ -60,7 +60,7 @@ async def process_data(bot, page2, data, config, arr):
         quantity = arr[2]
     if not await rq.update_purchase(arr[0], arr[2], rub, bot):
         await bot.send_message(chat_id=admin, text=f'ОШИБКА ЗАПИСИ В БД от {arr[0]} для {arr[1]}  {arr[2]} звезд {data.get("amount")}')    
-    await rq.create_purchase(arr[0], arr[1], rub, arr[2], TON, bot)
+    await rq.create_purchase(arr[0], arr[1], rub, arr[2], TON, USDT, bot)
     if arr[2].startswith('#'):
         if arr[1] == 'wallet':
             wallet = wallet_cache.get(str(arr[0]))
@@ -95,6 +95,7 @@ WEBHOOK_PATH = "/bot"
 WEBHOOK_SECRET = "my-secret"
 BASE_WEBHOOK_URL = "https://fff.engbot.ru"
 TON = {'TON': 130}
+USDT = {'USDT': 82.5}
 
 async def getConf():
     # Используем асинхронный контекст для загрузки конфига
@@ -565,6 +566,7 @@ async def on_startup(app: web.Application) -> None:
     dp['page'] = page
     dp['page3'] = page3
     dp['TON'] = TON
+    dp['USDT'] = USDT
     dp['transactionDict'] = transactionDict
     dp['isfragmentAvailable'] = isFragmentAvailable
     dp['reloadFragmentTask'] = asyncio.create_task(reloadFragmentTask(page, page3))
