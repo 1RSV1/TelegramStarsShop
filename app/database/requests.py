@@ -79,6 +79,37 @@ async def create_purchase(tg_id, tg_username, amount, item, TON, USDT, bot): # �
         await bot.send_message(chat_id=155269575, text=f"Ошибка записи покупки бд: {e}")
         return False
 
+async def retrieve_partner_info(tg_id, bot, stars, TON):
+    try:
+        async with async_session() as session:
+            user = await session.scalar(select(Stars).where(Stars.tg_id == tg_id))
+            purchases = await session.scalars(select(Purchases).where(Purchases.affiliate == tg_id)).all()
+            balance = user.balance
+            last_purchases = 'Покупок пока что не было\n\n'
+            total = len(purchases)
+            if purchases:
+                last_purchases = ''
+                for p in purchases[-5:]:
+                    star = p.share // stars
+                    ton = round(p.share / TON, 6)
+                    if p.stars:
+                        last_purchases += f' -{p.stars} звезд -- Комиссия:{star} -- Дата: {p.createdAt.strftime("%d.%m.%Y")}\n\n'
+                    else:
+                        last_purchases += f' -{p.ton} TON -- Комиссия:{ton} -- Дата: {p.createdAt.strftime("%d.%m.%Y")}\n\n'
+            return balance, total, last_purchases        
+    except Exception as e:
+        await bot.send_message(chat_id=8401558948, text=f"Ошибка извлечения инфы о партнере: {e}")
+        return False
+
+async def retrieve_referrals(tg_id, bot):
+    try:
+        async with async_session() as session:
+            referrals = await session.scalars(select(Stars).where(Stars.aff == tg_id)).all()
+            return len(referrals)    
+    except Exception as e:
+        await bot.send_message(chat_id=8401558948, text=f"Ошибка извлечения количества рефералов: {e}")
+        return 0        
+
 
 
 
