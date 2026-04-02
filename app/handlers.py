@@ -8,7 +8,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import time
-from app.keyboards import pricesKeyboard, chooseRecipient, choosePayment, Pay, Back, mainKeyboard, tonKeyboard, chooseDestinationTon
+from app.keyboards import pricesKeyboard, chooseRecipient, choosePayment, Pay, Back, mainKeyboard, tonKeyboard, chooseDestinationTon, withdrawKeyboard
 import asyncio
 import app.database.requests as rq
 import base64
@@ -441,7 +441,12 @@ async def SBP(callback: CallbackQuery, isfragmentAvailable, TON):
         name = ''
     await bot.send_message(chat_id=8401558948, text=f'Создана ссылка на оплату {data[1]} звезд от {callback.from_user.id} {name} для {username}')
 
-    
+@router.callback_query(F.data.startswith('withdraw_'))
+async def withdrawPayments(callback: CallbackQuery):
+    if callback.data == 'withdraw_stars':
+        await callback.answer("❌Вывод доступен от 50 звезд", show_alert= True)
+    else:
+        await callback.answer("❌Вывод доступен от 1 TON", show_alert= True)    
             
 @router.callback_query(F.data.startswith('payment_'))
 async def showPayments(callback: CallbackQuery):
@@ -556,9 +561,36 @@ async def get_ton_value(message: Message, TON):
 async def send_partners_info(message: Message):
     await message.answer(
     f"Приглашай друзей и получай 50% от комиссии с их покупок!\n\n"
-    f"Твоя реферальная ссылка: <code>https://t.me/BuyStarsPackageBot?start={message.from_user.id}</code>",
+    f"Твоя реферальная ссылка:\n\n<code>https://t.me/BuyStarsPackageBot?start={message.from_user.id}</code>\n\nУзнать количество своих рефералов, их историю покупок и доступный баланс для вывода: /account",
     parse_mode="HTML"
     )
+
+@router.message(Command('set_stars'))
+async def set_stars(message: Message, command: CommandObject):
+    if message.from_user.id == admin:
+        try:
+            STARS['STARS'] = float(command.args)
+            await message.answer(f'1 звезда = {STARS['STARS']}')
+        except:
+            await message.answer(f'Ошибка записи\n1 звезда = {STARS['STARS']}')
+
+@router.message(Command('set_usdt'))
+async def set_stars(message: Message, command: CommandObject):
+    if message.from_user.id == admin:
+        try:
+            USDT['USDT'] = float(command.args)
+            await message.answer(f'1 звезда = {USDT['USDT']}')
+        except:
+            await message.answer(f'Ошибка записи\n1 звезда = {USDT['USDT']}')        
+
+@router.message(Command('account'))
+async def get_partners_info(message: Message, TON):
+    num_ref = await rq.retrieve_referrals(message.from_user.id, bot)
+    data = await rq.retrieve_partner_info(message.from_user.id, bot, STARS['STARS'], TON['TON'])
+    if data:
+        balance, total, last_purchases = data
+        text = f"Количество рефералов: {num_ref}\nСделано покупок рефералами: {total}\nИстория:\n\n{last_purchases}Доступный баланс в звездах: {balance//STARS['STARS']}\nДоступный баланс в TON: {round(balance/TON['TON'], 6)}"
+        await message.answer(text = text, reply_markup = await withdrawKeyboard())
     
 
   
