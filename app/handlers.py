@@ -570,18 +570,18 @@ async def set_stars(message: Message, command: CommandObject):
     if message.from_user.id == admin:
         try:
             STARS['STARS'] = float(command.args)
-            await message.answer(f'1 звезда = {STARS['STARS']}')
+            await message.answer(f"1 звезда = {STARS['STARS']}")
         except:
-            await message.answer(f'Ошибка записи\n1 звезда = {STARS['STARS']}')
+            await message.answer(f"Ошибка записи\n1 звезда = {STARS['STARS']}")
 
 @router.message(Command('set_usdt'))
 async def set_stars(message: Message, command: CommandObject, USDT):
     if message.from_user.id == admin:
         try:
             USDT['USDT'] = float(command.args)
-            await message.answer(f'1 звезда = {USDT['USDT']}')
+            await message.answer(f"1 звезда = {USDT['USDT']}")
         except:
-            await message.answer(f'Ошибка записи\n1 звезда = {USDT['USDT']}')        
+            await message.answer(f"Ошибка записи\n1 звезда = {USDT['USDT']}")        
 
 @router.message(Command('account'))
 async def get_partners_info(message: Message, TON):
