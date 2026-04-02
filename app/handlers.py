@@ -33,7 +33,7 @@ router.message.middleware(ChatActionMiddleware())
 bot = Bot(token=os.getenv('TOKEN'))
 MerchantId = os.getenv("X-MerchantId")
 Secret = os.getenv("X-Secret")
-admin = os.getenv("admin")
+admin = int(os.getenv("admin"))
 WALLET = os.getenv("WALLET")
 
 url_platega = "https://app.platega.io/transaction/process"
