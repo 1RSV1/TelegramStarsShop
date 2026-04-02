@@ -271,7 +271,8 @@ async def catchStars(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(F.data.startswith("wallet_"))
 async def Wallet(callback: CallbackQuery, state: FSMContext):
-    await callback.answer()
+    await callback.answer(f"❌ Временно недоступно", show_alert= True)
+    return
     await state.set_state(SomeClass.wallet)
     data = callback.data.split('_')
     await state.update_data(message_id = callback.message.message_id)
