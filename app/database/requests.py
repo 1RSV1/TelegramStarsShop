@@ -113,7 +113,7 @@ async def retrieve_referrals(tg_id, bot):
 async def retrieve_all_users():
     async with async_session() as session:
         listt = []
-        users_object = await session.execute(select(Purchases.tg_id, Purchases.tg_username))
+        users_object = await session.execute(select(Stars.tg_id, Stars.tg_username))
         for tupl in users_object:
           dict = {'tg_id': tupl[0], 'tg_username': tupl[1]}
           listt.append(dict)
