@@ -140,6 +140,8 @@ class SomeClass(StatesGroup): # FSM
     wallet = State()
     message_id = State()
     amount = State()
+    text = State()
+    photo = State()
 
 @router.message(CommandStart(deep_link=True))
 async def cmd_start(message: Message, command: CommandObject):
@@ -199,6 +201,8 @@ async def getUser(message: Message):
 async def cmd_transactions(message: Message, transactionDict):
     length = str(len(transactionDict))
     await message.answer(text= length)
+
+
 
 
 @router.message(Command('send_money'))
@@ -591,6 +595,23 @@ async def get_partners_info(message: Message, TON):
         balance, total, last_purchases = data
         text = f"Количество рефералов: {num_ref}\nСделано покупок рефералами: {total}\nИстория:\n\n{last_purchases}Доступный баланс в звездах: {balance//STARS['STARS']}\nДоступный баланс в TON: {round(balance/TON['TON'], 6)}"
         await message.answer(text = text, reply_markup = await withdrawKeyboard())
+
+@router.message(Command('to_all_users'))
+async def message_to_all(message: Message, state: FSMContext): 
+    if message.from_user.id == admin:
+        await state.set_state(SomeClass.text)
+        await message.answer("жду сообщение")
+    else:
+        return
+
+@router.message(SomeClass.text)
+async def send_to_all(message: Message, state: FSMContext): 
+    if message.text:
+        await state.update_data(text = message.text) 
+    if message.caption:
+        await state.update_data(text = message.caption)    
+    if message.photo:
+        await state.update_data(photo = message.photo[0].file_id)
     
 
   
