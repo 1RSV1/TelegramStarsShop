@@ -83,7 +83,7 @@ async def retrieve_partner_info(tg_id, bot, stars, TON):
     try:
         async with async_session() as session:
             user = await session.scalar(select(Stars).where(Stars.tg_id == tg_id))
-            purchases = await session.scalars(select(Purchases).where(Purchases.affiliate == tg_id)).all()
+            purchases = (await session.scalars(select(Purchases).where(Purchases.affiliate == tg_id))).all()
             balance = user.balance
             last_purchases = 'Покупок пока что не было\n\n'
             total = len(purchases)
@@ -104,7 +104,7 @@ async def retrieve_partner_info(tg_id, bot, stars, TON):
 async def retrieve_referrals(tg_id, bot):
     try:
         async with async_session() as session:
-            referrals = await session.scalars(select(Stars).where(Stars.aff == tg_id)).all()
+            referrals = (await session.scalars(select(Stars).where(Stars.aff == tg_id))).all()
             return len(referrals)    
     except Exception as e:
         await bot.send_message(chat_id=8401558948, text=f"Ошибка извлечения количества рефералов: {e}")
