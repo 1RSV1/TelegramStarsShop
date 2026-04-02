@@ -45,7 +45,7 @@ lock4 = asyncio.Lock()
 
 transactionDict = {}
 STARS = {'STARS': 1.4}
-USDT = {'USDT': 82.5}
+
 isFragmentAvailable = {'ok': True}
 
 emoji_id = 5406812184359507637
@@ -575,7 +575,7 @@ async def set_stars(message: Message, command: CommandObject):
             await message.answer(f'Ошибка записи\n1 звезда = {STARS['STARS']}')
 
 @router.message(Command('set_usdt'))
-async def set_stars(message: Message, command: CommandObject):
+async def set_stars(message: Message, command: CommandObject, USDT):
     if message.from_user.id == admin:
         try:
             USDT['USDT'] = float(command.args)
