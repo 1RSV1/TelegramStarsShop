@@ -110,6 +110,15 @@ async def retrieve_referrals(tg_id, bot):
         await bot.send_message(chat_id=8401558948, text=f"Ошибка извлечения количества рефералов: {e}")
         return 0        
 
+async def retrieve_all_users():
+    async with async_session() as session:
+        listt = []
+        users_object = await session.execute(select(Stars.tg_id, Stars.tg_username))
+        for tupl in users_object:
+          dict = {'tg_id': tupl[0], 'tg_username': tupl[1]}
+          listt.append(dict)
+        return listt            
+
 
 
 
