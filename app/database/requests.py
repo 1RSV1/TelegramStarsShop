@@ -3,7 +3,7 @@ from app.database.models import Stars, Purchases
 from sqlalchemy import select, update
 
 
-USDT = {'USDT': 82.5}
+
 
 async def check_user(tg_id, tg_username, bot, aff=0): 
 
@@ -55,7 +55,7 @@ async def check_gift(tg_id):
         return False   
 
 
-async def create_purchase(tg_id, tg_username, amount, item, TON, bot): # создание данных покупки  
+async def create_purchase(tg_id, tg_username, amount, item, TON, USDT, bot): # создание данных покупки  
     try:
         async with async_session() as session:
             user = await session.scalar(select(Stars).where(Stars.tg_id == tg_id))
