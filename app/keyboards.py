@@ -70,7 +70,7 @@ async def chooseRecipient(stars):
 async def chooseDestinationTon(amount):
     keyboard = InlineKeyboardBuilder()    
     keyboard.add(InlineKeyboardButton(text = 'На аккаунт', icon_custom_emoji_id= '5857290546459973028', style= 'primary', callback_data= 'recipients' + '_' + amount))
-    keyboard.add(InlineKeyboardButton(text = 'На кошелек', icon_custom_emoji_id= '5406976471153545018', style= 'primary', callback_data= 'wallet' + '_' + amount)) 
+    #keyboard.add(InlineKeyboardButton(text = 'На кошелек', icon_custom_emoji_id= '5406976471153545018', style= 'primary', callback_data= 'wallet' + '_' + amount)) 
     keyboard.add(InlineKeyboardButton(text = '🔙Назад', callback_data= 'main'))           
     return keyboard.adjust(1).as_markup()
 
