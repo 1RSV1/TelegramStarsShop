@@ -8,8 +8,8 @@ services:
     # монтируем директорию nginx и сертификат с ключом
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /etc/letsencrypt/live/fff.engbot.ru-0001/fullchain.pem:/etc/nginx/cert.pem:ro
-      - /etc/letsencrypt/live/fff.engbot.ru-0001/privkey.pem:/etc/nginx/key.pem:ro
+      - /etc/letsencrypt/live/fff.engbot.ru/fullchain.pem:/etc/nginx/cert.pem:ro
+      - /etc/letsencrypt/live/fff.engbot.ru/privkey.pem:/etc/nginx/key.pem:ro
       # Also mount the entire letsencrypt directory for renewal
       - /etc/letsencrypt:/etc/letsencrypt:ro
 
