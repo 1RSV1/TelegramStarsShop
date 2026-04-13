@@ -483,7 +483,7 @@ async def reloadCrypto(page, attempts = 0):
     try:    
         await page.goto(f"https://crypto.ru/ton-rub", wait_until="commit")
         price_elm = page.locator('.coin__price-value[data-id="66715"]')
-        await price_elm.wait_for(state="visible", timeout=4000)
+        await price_elm.wait_for(state="visible", timeout=15000)
         await asyncio.sleep(3)
         pricestring = await price_elm.inner_text()
         TON['TON'] = float(pricestring.replace(',', '.').replace('\xa0', '').strip())
