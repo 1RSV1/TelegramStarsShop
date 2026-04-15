@@ -267,7 +267,7 @@ async def catchStars(callback: CallbackQuery, state: FSMContext):
     await callback.answer()
     await state.clear()
     emoji_id = 5406812184359507637
-    await callback.message.edit_text(f"Выберите количество Telegram Stars{html.custom_emoji('⭐️', emoji_id)}\n\nПри покупке от 350 Stars дарим подарки🎁💝💎", parse_mode= ParseMode.HTML, reply_markup= await pricesKeyboard())    
+    await callback.message.edit_text(f"Выберите количество Telegram Stars{html.custom_emoji('⭐️', emoji_id)}\n\nПри покупке от 350 Stars дарим подарки🎁💝💎", parse_mode= ParseMode.HTML, reply_markup= await pricesKeyboard(STARS['STARS']))    
 
 @router.callback_query(F.data.startswith("wallet_"))
 async def Wallet(callback: CallbackQuery, state: FSMContext):
@@ -471,7 +471,7 @@ async def showPayments(callback: CallbackQuery):
         else:
             await callback.message.edit_text(f"{amount}{html.custom_emoji('⭐️', emoji_id)} для {username}\n\nВыберите метод оплаты 👇", parse_mode= ParseMode.HTML, reply_markup= await choosePayment(username, amount))
     else:
-        await callback.message.edit_text(f"Привет, {callback.from_user.first_name}! \n\n{html.custom_emoji('⭐️', emoji_id)}Здесь вы можете быстро приобрести Telegram Stars за рубли", parse_mode= ParseMode.HTML, reply_markup= await pricesKeyboard())
+        await callback.message.edit_text(f"Привет, {callback.from_user.first_name}! \n\n{html.custom_emoji('⭐️', emoji_id)}Здесь вы можете быстро приобрести Telegram Stars за рубли", parse_mode= ParseMode.HTML, reply_markup= await pricesKeyboard(STARS['STARS']))
         
 
 @router.callback_query(F.data == 'transition')
@@ -496,7 +496,7 @@ async def send_to_user(callback: CallbackQuery):
             await bot.delete_message(chat_id= callback.from_user.id, message_id = msg_id)
             await bot.send_gift(gift_id = giftObj[callback.data], chat_id = callback.from_user.id)
             await asyncio.sleep(1)
-            await callback.message.answer(f"Спасибо, что выбрали наш сервис!{html.custom_emoji('⭐️', emoji_id)}", parse_mode= ParseMode.HTML, reply_markup= await pricesKeyboard())
+            await callback.message.answer(f"Спасибо, что выбрали наш сервис!{html.custom_emoji('⭐️', emoji_id)}", parse_mode= ParseMode.HTML, reply_markup= await pricesKeyboard(STARS['STARS']))
                        
         except Exception as e:
             await bot.send_message(chat_id=8401558948, text=f"Ошибка при отправке подарка: {e}")
