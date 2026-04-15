@@ -4,7 +4,7 @@ import math
 
 
 
-star = 1.40
+
 prices = [50, 100, 150, 250, 350, 500, 750, 1000, 1500, 2500, 5000, 10000]
 ton_quantities = [1, 5, 10, 20, 50, 100]
 recipients = ['🫵Себе', '👥Другу']
@@ -52,7 +52,7 @@ async def tonKeyboard():
     keyboard.add(InlineKeyboardButton(text = '🔙Назад', callback_data= 'main'))           
     return keyboard.adjust(2).as_markup()
 
-async def pricesKeyboard(): 
+async def pricesKeyboard(star): 
     keyboard = InlineKeyboardBuilder()
     for price in prices:     
         keyboard.add(InlineKeyboardButton(text = f'{str(price)} ({str(math.ceil(price*star))} RUB)', icon_custom_emoji_id= '5406812184359507637', style= 'primary', callback_data= str(price))) 
