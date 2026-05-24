@@ -6,7 +6,6 @@ import asyncio
 import base64
 import math
 import httpx
-
 from aiohttp import web
 from app.keyboards import Back, Cancelled, giftsKeyboard
 from aiogram import Bot, Dispatcher
